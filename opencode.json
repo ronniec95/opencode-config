@@ -1,0 +1,346 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "qwen": {
+      "name": "Qwen",
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "https://dashscope-intl.aliyuncs.com/compatible-mode/v1",
+        "preserve_thinking": true
+      },
+      "models": {
+        "qwen3.6-plus": {
+          "name": "qwen3.6-plus",
+          "reasoning": true
+        },
+        "qwen3.6-35b-a3b": {
+          "name": "qwen3.6-35b-a3b",
+          "reasoning": true
+        },
+        "qwen3-8b": {
+          "name": "qwen3-8b",
+          "reasoning": false
+        }
+      }
+    },
+    "deepseek": {
+      "name": "DeepSeek",
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "https://api.deepseek.com/v1"
+      },
+      "models": {
+        "deepseek-v4-pro": {
+          "name": "deepseek-v4-pro",
+          "reasoning": true
+        },
+        "deepseek-v4-flash": {
+          "name": "deepseek-v4-flash",
+          "reasoning": true
+        }
+      }
+    },
+    "moonshotai": {
+      "name": "Kimi",
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "https://api.moonshot.ai/v1"
+      },
+      "models": {
+        "kimi-k2.6": {
+          "name": "Kimi2.6",
+          "reasoning": true
+        },
+        "kimi-k2.5": {
+          "name": "Kimi2.5",
+          "reasoning": true
+        }
+      }
+    }
+  },
+  "agent": {
+    "plan": {
+      "disable": true
+    },
+    "build": {
+      "disable": true
+    },
+    "planner": {
+      "description": "Project lead for coordinating architecture, quant, math, and test agents for derivatives trading systems",
+      "mode": "all",
+      "permission": {
+        "task": {
+          "*": "allow"
+        },
+        "skill": {
+          "*": "allow"
+        },
+        "bash": "allow",
+        "read_sqlite": "allow",
+        "question": "allow",
+        "edit": "deny",
+        "glob": "allow",
+        "grep": "allow"
+      }
+    },
+    "architect": {
+      "description": "Architecture agent for system design, module boundaries, and technical specifications",
+      "mode": "subagent",
+      "permission": {
+        "task": {
+          "*": "allow"
+        },
+        "skill": {
+          "database-*": "allow",
+          "improve-codebase-architecture": "allow",
+          "software-architecture": "allow",
+          "memori": "allow"
+        },
+        "edit": "deny",
+        "bash": "allow",
+        "read_sqlite": "allow",
+        "question": "allow",
+        "glob": "allow",
+        "grep": "deny"
+      }
+    },
+    "explore": {
+      "description": "Fast agent specialized for exploring codebases. ctx and memori skills should be used first before grep or glob",
+      "mode": "subagent",
+      "permission": {
+        "task": {
+          "*": "allow"
+        },
+        "bash": "allow",
+        "read_sqlite": "allow",
+        "glob": "allow",
+        "grep": "deny",
+        "read": "allow"
+      }
+    },
+    "test-engineer": {
+      "description": "Primary test engineer orchestrator - routes tasks to 2-tier subagents based on complexity; handles numerical accuracy, Greeks, and risk model tests directly",
+      "mode": "subagent",
+      "permission": {
+        "task": {
+          "*": "allow"
+        },
+        "skill": {
+          "memori": "allow",
+          "rust-testing": "allow"
+        },
+        "bash": "allow",
+        "read_sqlite": "allow",
+        "edit": "allow",
+        "read": "allow",
+        "grep": "deny",
+        "glob": "allow"
+      }
+    },
+    "test-basic": {
+      "description": "Ultra-lightweight subagent for trivial test stubs, basic assertions, and happy-path test cases",
+      "mode": "subagent",
+      "permission": {
+        "task": {
+          "*": "allow"
+        },
+        "skill": {
+          "rust-testing": "allow"
+        },
+        "bash": "deny",
+        "outline": "deny",
+        "read_sqlite": "allow",
+        "edit": "allow",
+        "read": "allow",
+        "grep": "deny",
+        "glob": "deny"
+      }
+    },
+    "developer": {
+      "description": "Primary developer orchestrator - routes tasks to 2-tier subagents based on complexity; handles non-trivial tasks directly",
+      "mode": "subagent",
+      "permission": {
+        "task": {
+          "*": "allow"
+        },
+        "skill": {
+          "rust-*": "allow",
+          "memori": "allow",
+          "m15-anti-pattern": "allow"
+        },
+        "bash": "allow",
+        "read_sqlite": "allow",
+        "edit": "allow",
+        "read": "allow",
+        "glob": "allow",
+        "grep": "allow"
+      }
+    },
+    "developer-basic": {
+      "description": "Ultra-lightweight subagent for trivial text operations, formatting, and pattern-based edits",
+      "mode": "subagent",
+      "permission": {
+        "task": {
+          "*": "allow"
+        },
+        "skill": {
+          "rust-best-practices": "allow",
+          "memori": "allow",
+          "m15-anti-pattern": "allow"
+        },
+        "bash": "allow",
+        "read_sqlite": "allow",
+        "edit": "allow",
+        "read": "allow",
+        "grep": "allow",
+        "glob": "allow"
+      }
+    },
+    "math-expert": {
+      "description": "Expert in advanced mathematics, proofs, numerical methods, and mathematical reasoning",
+      "mode": "subagent",
+      "permission": {
+        "task": {
+          "*": "deny",
+          "tester*": "allow",
+          "review*": "allow"
+        },
+        "skill": {
+          "quantitative-*": "allow",
+          "deep-research": "allow",
+          "memori": "allow",
+          "tavily-research": "allow",
+          "autoresearch": "allow"
+        },
+        "tool": {
+          "*": "allow"
+        },
+        "bash": "allow",
+        "edit": "allow",
+        "websearch": "allow",
+        "webfetch": "allow",
+        "grep": "deny",
+        "read_sqlite": "allow",
+        "memori": "allow",
+        "question": "allow"
+      },
+      "temperature": 0.2,
+      "steps": 5
+    },
+    "quant-researcher": {
+      "description": "Primary quant orchestrator - routes routine tasks to Quant-Basic subagent; handles complex pricing, calibration, and exotic derivatives directly",
+      "mode": "subagent",
+      "permission": {
+        "task": {
+          "*": "deny",
+          "math*": "allow",
+          "tester*": "allow",
+          "review*": "allow"
+        },
+        "skill": {
+          "quantitative-*": "allow",
+          "deep-research": "allow",
+          "autoresearch": "allow",
+          "tavily-research": "allow",
+          "memori": "allow"
+        },
+        "tool": {
+          "*": "allow"
+        },
+        "edit": "allow",
+        "bash": "allow",
+        "websearch": "allow",
+        "webfetch": "allow",
+        "question": "allow",
+        "grep": "deny",
+        "read_sqlite": "allow"
+      },
+      "temperature": 0.2,
+      "steps": 5
+    },
+    "quant-basic": {
+      "description": "Lightweight quant subagent for routine pricing formulas, basic strategies, and standard model explanations",
+      "mode": "subagent",
+      "permission": {
+        "task": {
+          "*": "allow"
+        },
+        "skill": {
+          "quantitative-research": "allow",
+          "memori": "allow"
+        },
+        "bash": "deny",
+        "read_sqlite": "allow",
+        "edit": "allow",
+        "read": "allow",
+        "grep": "deny",
+        "glob": "allow"
+      }
+    },
+    "docs-writer": {
+      "description": "Technical writer for documentation, guides, and project documentation",
+      "model": "qwen3.6-35b-a3b",
+      "mode": "subagent",
+      "permission": {
+        "skill": {
+          "code-comments": "allow",
+          "memori": "allow",
+          "documentation-writer": "allow"
+        },
+        "bash": "allow",
+        "read_sqlite": "allow",
+        "edit": "allow",
+        "read": "allow"
+      }
+    },
+    "quant-reviewer": {
+      "description": "Independent reviewer to validate mathematical correctness and quantitative reasoning",
+      "mode": "subagent",
+      "permission": {
+        "task": {
+          "*": "deny",
+          "math*": "allow",
+          "memori": "allow",
+          "quant*": "allow"
+        },
+        "edit": "deny",
+        "bash": "allow",
+        "read_sqlite": "allow",
+        "read": "allow",
+        "grep": "deny"
+      }
+    },
+    "code-reviewer": {
+      "description": "Independent reviewer to critique good software design",
+      "mode": "subagent",
+      "permission": {
+        "task": {
+          "*": "deny",
+          "memori": "allow"
+        },
+        "skill": {
+          "requesting-code-review": "allow",
+          "rust-best-practices": "allow",
+          "m15-anti-pattern": "allow"
+        },
+        "edit": "deny",
+        "bash": "allow",
+        "read_sqlite": "allow",
+        "read": "allow",
+        "grep": "deny"
+      }
+    }
+  }
+  // "mcp": {
+  //   "mempalace": {
+  //     "type": "local",
+  //     "command": [
+  //       "D:/greywood_creek/.venv/Scripts/python.exe",
+  //       "-m",
+  //       "mempalace.mcp_server",
+  //     ],
+  //     "enabled": true,
+  //     "environment": {},
+  //   },
+  // },
+}
