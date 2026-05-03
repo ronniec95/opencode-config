@@ -316,7 +316,6 @@
       "permission": {
         "task": {
           "*": "deny",
-          "memori": "allow"
         },
         "skill": {
           "requesting-code-review": "allow",
@@ -331,16 +330,4 @@
       }
     }
   }
-  // "mcp": {
-  //   "mempalace": {
-  //     "type": "local",
-  //     "command": [
-  //       "D:/greywood_creek/.venv/Scripts/python.exe",
-  //       "-m",
-  //       "mempalace.mcp_server",
-  //     ],
-  //     "enabled": true,
-  //     "environment": {},
-  //   },
-  // },
 }
