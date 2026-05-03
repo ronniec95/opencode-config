@@ -21,5 +21,7 @@ My opencode config
 * quantitative-research
 
 # Command line tools
+
 https://github.com/archit15singh/memori - For persistance across sessions. Stores decisions and why you made them. Use after ever stage in your workflow
+
 https://github.com/Alegau03/CTX - For where is the code that does this? Intelligent grep/glob
